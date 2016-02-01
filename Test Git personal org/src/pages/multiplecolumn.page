@@ -1,0 +1,11 @@
+<apex:page controller="A">
+<apex:form >
+<apex:pageblock >
+   <apex:pageblocksection columns="2" dir="LTR" >
+       <apex:repeat value="{!ak2}" var="string" id="theRepeat">
+      <apex:outputText escape="false" value="{!string}" id="theFirst"/>
+         </apex:repeat>
+   </apex:pageblocksection>
+</apex:pageblock>  
+</apex:form>  
+</apex:page>

@@ -1,0 +1,5 @@
+<apex:page standardController="Account" extensions="Stra.StratusController">
+    <apex:form >
+        <iframe id="stratusframe" frameborder="0" width="100%" src="{!frameaddr}" height="300"></iframe>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,104 @@
+<apex:page title="PageLayout Fields Locator" sidebar="false" controller="VFC01_VFP01_HomePage">
+<font color="RED"><apex:pageMessages /></font>
+
+    <style>
+        .activeTab {background-color: #236FBD; color:white;
+        background-image:none}
+        .inactiveTab { background-color: lightgrey; color:black;
+        background-image:none}
+    </style>
+    
+    
+    <script type="text/javascript">
+        function openpopup()
+        {
+            var left = (screen.width - 750) / 2;
+            var top = (screen.height - 600) / 4; 
+            window.open('/apex/VFP01_Steps', '_blank','resizable=no,scrollbars=1,width=750,height=600' + ', top=' + top + ', left=' + left);
+        }
+    
+        function showProcessPage()
+        {
+            var win = window.open('/apex/VFP01_Processor', "_blank");
+        }
+    
+    </script>
+    
+    
+    
+    
+    <apex:form >
+        <apex:pageBlock title="Welcome to PageLayout Fields Locator !" >
+
+                <table width="100%">
+                <tr>
+                    <td align="center">
+                        <apex:commandButton value="Reset Tool Environment" title="Reset the tool environment before using this tool." action="{!resetTool}"/>
+                    </td>
+                </tr>
+                </table>
+
+            
+            <b><Font color="{!if(blnisReadMode,'Grey','Black')}">SalesForce Objects :</Font></b><br/><br/>
+            
+            <apex:selectList disabled="{!blnisReadMode}" id="objs" value="{!selobject}" size="5"  style="width:100%;align:left" >
+                <apex:selectOptions value="{!options}"/>
+            </apex:selectList>
+            <br/><br/>
+            
+            <table style="border:0.2px #000000 solid" width="100%">
+            <tr><td style="color:{!if(blnisReadMode,'Grey','Black')};" rowspan="5"><b>PageLayout ID:Name Mapping</b><br/><br/>Use this section to generate the pagelayout name and ID mapping for the object you have selected.Please click <a href="#" onClick="openpopup();"><Font color="{!if(blnisReadMode,'Grey','Blue')}">here</Font></a> to see the exact steps.<br/>You can skip this step ,if you have previously populated the page layout name id mapping for the selected object.<br/><b>Note : Make sure you have selected the object above before generating the mapping.If possible use mozilla browser as it allows you to get the source code for selected item on the web page.</b></td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr>
+                <td width="50%" align="right">    
+                    <apex:inputFile value="{!contentFile}"  disabled="{!blnisReadMode}" />
+                    <apex:commandButton disabled="{!blnisReadMode}" action="{!readFile}" value="Upload File" id="theButton" style="width:90px;" />&nbsp;&nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td></tr>
+            </table>
+            <br/><br/>
+            
+            <table width="100%">
+            <tr>
+                <td align="center">
+                    <apex:commandButton disabled="{!blnisReadMode}"  action="{!generateExcelReport}" value="Get Report in Excel Format" title="Generate the Report in Excel so that you can tweak it afterwards as per your need."  />
+                </td>
+                <td align="center">
+                    <apex:commandButton disabled="{!blnisReadMode}" action="{!generatePDFReport}" value="Get Report in PDF Format" title="Generate the Report in PDF format in case if you need it in read only mode."  />
+                </td>
+            </tr>
+            </table>
+           
+        </apex:pageBlock>
+    </apex:form>
+     
+    <apex:tabPanel switchType="client"  selectedTab="tabdetails"
+    id="AccountTabPanel"  tabClass="activeTab"
+    inactiveTabClass="inactiveTab"  >
+    <apex:tab disabled="{!blnisReadMode}"   label="Profiled Counter" name="ProfiledCounter" id="tabdetails">
+                 <apex:outputPanel rendered="{!NOT(blnisReadMode)}">
+                     <apex:enhancedList type="ProfileCounter__c" height="250" customizable="false" rowsPerPage="25"/>
+                 </apex:outputPanel>
+    </apex:tab>
+        
+    
+    <apex:tab disabled="{!blnisReadMode}" label="Profiled Users" name="ProfiledUsers" id="ProfiledUsers">
+                 <apex:enhancedList type="Profiled_Users__c" height="250" customizable="false" rendered="true" rowsPerPage="25"/>
+    </apex:tab>
+
+    <apex:tab disabled="{!blnisReadMode}" label="PageLayout Name-ID Mapping" name="PIDNameMap" id="PageDetails">
+                 <apex:enhancedList type="PageLayoutNameID__c" height="250" customizable="false" rendered="true" rowsPerPage="25"/>
+    </apex:tab>
+
+    <apex:tab disabled="{!blnisReadMode}" label="Object and Report Format Selection" name="ORFS" id="ORFS">
+                 <apex:enhancedList type="DataInput__c" height="250" customizable="false" rowsPerPage="25"/>
+    </apex:tab>
+
+    <apex:tab disabled="{!blnisReadMode}" label="Execution Summary Name" name="ESN" id="ESN">
+                 <apex:enhancedList type="Execution_Summary__c" height="250" customizable="false" rowsPerPage="25"/>
+    </apex:tab>
+    </apex:tabPanel>    
+
+ </apex:page>

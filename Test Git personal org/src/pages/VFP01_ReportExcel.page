@@ -1,0 +1,27 @@
+<apex:page controller="VFC01_VFP01_ReportPDF" contentType="application/vnd.ms-excel#PageLayoutFieldSettingReport.xls" >
+<font color="RED"><apex:pageMessages /></font>
+        <h1>Congratulations you have successfully generated the report.</h1>
+        <b>You have the data for {!lstRecs.size} fields of object {!objName} in this report.</b><br/><br/>
+        <table width="100%" border="1">
+        <tr>
+            <th bgcolor="#dddddd" >SrNo</th>
+            <th bgcolor="#dddddd" >Field Name</th>
+            <apex:repeat value="{!plNames}" var="colHeadings">
+                <th bgcolor="#dddddd"  style="vertical-align: top;">
+                    {!Left(RIGHT(colHeadings,LEN(colHeadings)-15), LEN(RIGHT(colHeadings,LEN(colHeadings)-15)) -1- LEN(RIGHT(colHeadings,LEN(colHeadings)-FIND('@',colHeadings))))}
+                </th>
+            </apex:repeat>
+        </tr>
+
+            <apex:repeat value="{!lstRecs}" var="ro">
+            <tr>
+                <td>{!ro.srno}</td>
+                <td>{!ro.fname}</td>
+                <apex:repeat value="{!ro.lstLayoutNames}" var="lo">
+                    <td>{!RIGHT(lo,1)}</td>
+                </apex:repeat>
+            </tr>
+            </apex:repeat>
+        </table><br/>
+        Report Generated on : {!NOW()}        
+</apex:page>

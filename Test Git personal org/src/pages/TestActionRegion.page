@@ -1,0 +1,31 @@
+<apex:page controller="ActionRegionCLS" >
+ <apex:pagemessages id="msgs"></apex:pagemessages>
+ <apex:form >
+  <apex:pageblock id="pb">
+   <table>
+     <apex:actionRegion >
+      <tr>
+        <td> <apex:outputLabel value="Enter Account Number"> </apex:outputLabel> </td>
+        <td>
+        
+         
+          <apex:inputtext value="{!reqAccNumber}"/>
+          <apex:commandButton value="Retrive" action="{!fillRecord}" rerender="pb,msgs"/>
+          </td>
+       </tr>  
+     </apex:actionRegion>
+     <tr>
+      <td> <apex:outputLabel value="Account Name"> </apex:outputLabel> </td>
+      <td>
+        <apex:inputField value="{!accObj.Name}"/>
+      </td>
+     </tr>
+     <tr>
+     <td> <apex:outputLabel value="Account Type"> </apex:outputLabel> </td>
+      <td>  <apex:inputField value="{!accObj.Type}"/> </td>
+      <apex:outputLink value="https://www.salesforce.com" id="theLink">www.salesforce.com</apex:outputLink>
+     </tr>
+   </table>
+  </apex:pageblock>
+ </apex:form>
+</apex:page>

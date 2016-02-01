@@ -1,0 +1,22 @@
+<apex:page standardController="Contact" extensions="ContactExtras" docType="html-5.0">
+<!--
+This page expects to be referenced along with the ID of an existing contact record
+For example: https://<salesforce_instance>/apex/ContactForm?id=003D000000QB6wh
+-->
+<apex:form id="theForm">
+<apex:pageBlock title="Contact: {! Contact.Name }" >
+<apex:pageBlockSection id="contactDetails" title="Contact Details" columns="1">
+<apex:inputField value="{! Contact.MobilePhone }" type="tel"
+html-placeholder="999-999-9999"
+html-autofocus="true"
+/>
+<apex:input label="Steps Today" value="{! fNumber }" type="number"
+html-min="0" html-max="50000"
+/>
+<apex:input label="Favorite Date in History" value="{! fDate }"
+type="auto"
+/>
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

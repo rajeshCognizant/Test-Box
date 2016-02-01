@@ -1,0 +1,131 @@
+<apex:page controller="VFC01_VFP01_SchemaExtractor" sidebar="false">
+<script type="text/javascript"> 
+    function showExcelReport(objrow)
+    {
+        var strWindowFeatures = "location=no,height=200,width=200,scrollbars=no,status=no";
+        URL = "/apex/VFP02_SchemaExcelExtract" + "?objrow=" + objrow;
+        var win = window.open(URL, "_blank", strWindowFeatures); 
+    }
+</script>     
+ 
+<apex:pageBlock title="Welcome to Schema Extractor (with ER Diagram) !." > 
+<apex:form id="theform">
+<table width="100%" border="0">
+    <tr align="center" >
+        <td width="45%"/>
+        <td width="5%">
+            <apex:commandButton id="rebutton" Value="Reset Environment" title="Clicking this button will reset all parameters related to this tool and you can start over again from scratch.!" action="{!resetenvironment}" rerender="availableRelCounter,availableRelatedObjects,exportbutton,schemaper,availableObjects,getrelobj,buildschema,relatedObjects,relCounter,incobj,orr"  status="dataStatus3" disabled="{!IF(schemaBuildPercentage=0 && !blninProgress,false,false)}" />
+        </td>
+        <td width="45%"/>
+    </tr>
+     <tr align="center" >
+        <td width="45%" align="left">
+        <apex:inputCheckbox value="{!includeAllObjects}" id="incobj" >
+        <apex:actionSupport event="onclick" status="dataStatus3"
+            action="{!disablePicklistButton}"
+            rerender="salesforceobjectstitle,availableObjects,getrelobj,buildschema,relatedObjects,relCounter,incobj" />
+        <b>&nbsp;Do you want to include all salesforce objects ?</b>&nbsp;</apex:inputCheckbox>
+        </td>
+        <td width="5%">
+        </td>
+        <td width="45%" align="right"><apex:outputpanel id="schemaper"><b style="color:{!IF(schemaBuildPercentage==100,'Green','Red')}">Overall Organization Schema Build Status : {!ROUND(alreadyAvailObjects.size/availableObjects.size,2)*100} % Completed !. </b></apex:outputpanel></td>
+    </tr>
+     <tr><td/><td><br/></td><td/></tr>
+    
+    <tr>
+        <th align="left" width="45%" >
+        <apex:outputPanel id="salesforceobjectstitle">
+            <Font color="{!if(includeAllObjects,'Grey','Black')}">Select Salesforce Objects:(<b style="color:green">{!availableObjects.size}</b>)[List sorted by Object's API Name]</Font>
+        </apex:outputPanel>
+        </th>
+        <th width="10%"></th>
+        <th align="left" width="45%">
+            <apex:outputPanel id="availableRelCounter">
+            <Font color="Grey">Object's Schema Data Available from previous runs:(<b style="color:green">{!alreadyAvailObjects.size}</b>)[List sorted by Object's API Name]</Font>
+            </apex:outputPanel>
+        </th>
+    </tr>
+
+    <tr>
+        <td align="left" width="45%" rowspan="3" >
+            <apex:selectList id="availableObjects" value="{!selobjects}" size="26"  multiselect="true" style="width:100%;align:left" disabled="{!IF(blnpickbutton || relatedObjects.size>0,True,false)}">
+                          <apex:selectOptions value="{!availableObjects}"/>
+            </apex:selectList>
+        </td>
+        <td width="10%"></td>
+        <td align="left" width="45%">
+            <apex:selectList id="availableRelatedObjects"  size="12" disabled="{!blnDisable}" multiselect="true" style="width:100%;align:left">
+                          <apex:selectOptions value="{!alreadyAvailObjects}"/>
+            </apex:selectList>
+        </td>
+        
+    </tr>
+    
+    <tr>
+        <th width="10%"></th>
+        <th align="left" width="45%">
+            <apex:outputPanel id="relCounter">
+            <Font color="Grey">Related Objects:(<b style="color:green">{!relatedObjects.size}</b>)[List sorted by Object's API Name]</Font>
+            </apex:outputPanel>
+        </th>
+    </tr>
+    
+     <tr>
+        
+        <td width="10%"></td>
+        <td align="left" width="45%">
+            <apex:selectList id="relatedObjects" value="{!selrelobjects}" size="12" disabled="{!blnDisable}"  multiselect="true" style="width:100%;align:left">
+                          <apex:selectOptions value="{!relatedObjects}"/>
+            </apex:selectList>
+        </td>
+        
+    </tr>
+
+    <tr><td/><td><br/></td><td/></tr>
+    <tr><td/><td><br/></td><td><Font color="{!if(schemaBuildPercentage==0,'Grey','Black')}"><b>How many objects you want per row in the excel sheet export ?&nbsp;&nbsp;</b></Font>
+    <apex:selectList id="orr" disabled="{!IF(alreadyAvailObjects.size==0,true,false)}" value="{!oVal}" size="1" >
+                            <apex:selectOptions value="{!ObjValues}"/>
+    </apex:selectList>
+    </td></tr>
+     <tr><td/><td><br/></td><td/></tr>
+     
+    <tr align="center">
+        <td >
+            <apex:commandButton action="{!LoadData}" id="getrelobj" Value="Get Related Objects ({!IF(relatedObjects.size==0,0,ROUND(getRelatedObjPercentage/IF(includeAllObjects==true,availableObjects.size,selobjects.size),2)*100)} % completed.)" reRender="relatedObjects,relCounter,incobj,getrelobj,availableObjects,rebutton,buildschema"  status="dataStatus1" disabled="{!IF((blnpickbutton || relatedObjects.size>0) && blnComplete==true ,True,false)}" title="Clicking this button will populate the bottom right Related Object listbox with all objects related to the selected objects!."/>
+        </td>
+        <td><apex:commandButton id="buildschema"  action="{!buildSchemaData}" Value="Build Schema Model ({!IF(relatedObjects.size==0,0,ROUND(((getBuildObjPercentage)/relatedObjects.size),2)*100)} % completed.)" disabled="{!IF(relatedObjects.size==0 || (IF(getRelatedObjPercentage==0,0,ROUND(getRelatedObjPercentage/IF(includeAllObjects==true,availableObjects.size,selobjects.size),2)*100)<100) || (IF(relatedObjects.size==0,0,ROUND(((getBuildObjPercentage)/relatedObjects.size),2)*100))==100,true,false)}" status="dataStatus2" rerender="orr,exportbutton,availableRelatedObjects,availableRelCounter,buildschema,schemaper" title="Clicking this button will generate the schema data for all the objects in the bottom right Related Object listbox and will populate the top right list box with all the objects with schema data!."/></td>
+        <td>
+            <apex:commandButton id="exportbutton" Value="Export Schema (ER Diagram)"  oncomplete="showExcelReport({!oVal});" disabled="{!IF(alreadyAvailObjects.size==0,true,false)}" title="Clicking this button will generate an excel report with the Schema Data of all the objects in the top right box along with the ER Diagram!."/>
+        </td>
+    </tr>
+    
+    <tr>
+    
+        <b>
+            <font color="green" size="3">
+                <apex:actionStatus startText="Please be patient.This may take few minutes..!"
+                stopText="" id="dataStatus3"/>
+            </font>
+        </b>
+        
+        <b>
+            <font color="green" size="3">
+                <apex:actionStatus startText="Gathering related object information.Please wait!"
+                stopText="" id="dataStatus1"/>
+            </font>
+        </b>
+        
+        <b>
+            <font color="green" size="3">
+                <apex:actionStatus startText="Generating Schema Data.Please wait!"
+                stopText="" id="dataStatus2"/>
+            </font>
+        </b>
+     
+    </tr>
+</table>
+</apex:form><br/>
+<b>Note : Due to governor limits on describe calls you might need to click Get Related Objects and Build Schema Model buttons on the screen multiple times to complete the task.You will see the progress in percentage on button's label.</b>
+</apex:pageBlock>
+ 
+</apex:page>

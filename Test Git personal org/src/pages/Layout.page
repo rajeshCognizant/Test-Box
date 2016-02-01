@@ -1,0 +1,18 @@
+<apex:page >
+
+<script type="text/javascript">
+var __sfdcSessionId = '{!GETSESSIONID()}';
+</script>
+<script src="../../soap/ajax/28.0/connection.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+window.onload = setupPage;
+function setupPage() 
+    {
+    document.getElementById("foo").innerHTML = sforce.connection.describeLayout('Account');
+<!--alert(rresult);-->
+}
+</script>
+
+<span id="foo"></span>
+</apex:page>

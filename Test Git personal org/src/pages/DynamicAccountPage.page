@@ -1,0 +1,3 @@
+<apex:page standardController="Account"> 
+    <c:DynamicObjectViewer rec="{!account}"/>
+</apex:page>

@@ -1,0 +1,28 @@
+<!--
+    Author          : Viswam Srinivasan
+    Date Created    : 14/02/2013
+    Description     : Visualforce page created to enable users to use a sticky Notes functionality within salesforce.
+-->
+
+<apex:page controller="VFC_StickyNotesController">
+    <h1>Please enter your notes here</h1>
+
+    <script>
+    function callSaveStickyScript()
+    {
+        saveSticky();
+    }
+    </script>
+
+    <apex:pageBlock >
+    <apex:pageMessages /> 
+        <apex:form >
+            <apex:pagemessages id="errorMessages" />
+            <apex:actionFunction name="saveSticky" action="{!saveDrafts}"/> 
+            
+            <apex:outputpanel >
+                <apex:inputTextarea id="newDesc" value="{!textAreaVal}" onChange="callSaveStickyScript();" rows="6" cols="70"/>       
+            </apex:outputpanel> 
+        </apex:form>
+    </apex:pageBlock>
+</apex:page>

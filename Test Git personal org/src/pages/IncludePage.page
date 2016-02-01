@@ -1,0 +1,5 @@
+<!-- Page: -->
+<apex:page id="thePage">
+<apex:outputText value="(page) This is the page."/><br/>
+<apex:include pageName="include"/>
+</apex:page>

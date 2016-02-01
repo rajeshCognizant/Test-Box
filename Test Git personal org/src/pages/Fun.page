@@ -1,0 +1,24 @@
+<apex:page standardcontroller="Contact" extensions="RelatedController">
+ <apex:form >
+   <apex:pageMessages id="msgs"/>
+   <apex:pageBlock title="Contact Create/Edit">
+      <apex:pageBlockSection title="Contact Information">
+       <apex:inputField value="{!cont.FirstName}"/>
+       <apex:inputField value="{!cont.LastName}"/>
+      </apex:pageBlockSection>
+       <apex:actionRegion >
+          <apex:pageBlockSection id="accinfo" title="Account Information">
+         <apex:inputField value="{!cont.AccountId}">
+            <apex:actionSupport event="onchange" action="{!AccountPopulated}" rerender="accinfo, msgs"/> 
+         </apex:inputField>
+         <apex:outputField value="{!cont.Account.AccountNumber}"/>
+         <apex:outputField value="{!cont.Account.Site}"/>
+        </apex:pageBlockSection>
+      </apex:actionRegion>
+      <apex:pageBlockButtons >
+        <apex:commandButton value="Cancel" action="{!cancel}"/>
+        <apex:commandButton value="Save" action="{!save}"/>
+      </apex:pageBlockButtons>
+   </apex:pageBlock>
+  </apex:form>
+</apex:page>

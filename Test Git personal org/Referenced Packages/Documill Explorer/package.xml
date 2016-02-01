@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Documill Explorer</fullName>
+    <apiAccessLevel>Unrestricted</apiAccessLevel>
+    <description>Documill Explorer</description>
+    <namespacePrefix>sfexplorer</namespacePrefix>
+    <types>
+        <members>explorerController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>Explorer</members>
+        <members>Explorer_Account_Page</members>
+        <members>Explorer_Admin</members>
+        <members>Explorer_Asset_Page</members>
+        <members>Explorer_Case_Page</members>
+        <members>Explorer_Contact_Page</members>
+        <members>Explorer_Contract_Page</members>
+        <members>Explorer_Event_Page</members>
+        <members>Explorer_Lead_Page</members>
+        <members>Explorer_Opportunity_Page</members>
+        <members>Explorer_Task_Page</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Documill_Explorer</members>
+        <members>Documill_Explorer_Admin</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>explorer_embed_js</members>
+        <name>StaticResource</name>
+    </types>
+    <version>33.0</version>
+</Package>

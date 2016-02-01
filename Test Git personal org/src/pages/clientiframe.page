@@ -1,0 +1,9 @@
+<apex:page controller="clientiframe">
+  <apex:dataTable id="accountDataTable" value="{!accounts}" var="acc">
+    <apex:column >
+      <apex:outputLink onclick="document.getElementById('googleSearchResultsIframe').src='http://news.google.co.uk/news?q={!acc.name}'; return false">{!acc.name}</apex:outputLink>
+    </apex:column>
+  </apex:dataTable> 
+
+  <apex:iframe id="googleSearchResultsIframe" src="http://news.google.co.uk/news" />
+</apex:page>

@@ -1,0 +1,56 @@
+<apex:page showChat="false" wizard="true" sidebar="false" controller="AccountPopup" id="pg">
+<!-- Javascript -->
+<script type = "text/javascript">
+    function winClose()
+    {
+        self.close();
+    }
+</script>
+<!-- End of Javascript-->
+<apex:form >
+    <apex:pageBlock >
+        <apex:pageblockSection >
+            <apex:pageblocktable value="{!AccountList}" var="mem">
+                <apex:column title="Name" value="{!mem.Name}"/>
+                <apex:column title="eMail Id" value="{!mem.Phone}"/>
+            </apex:pageblocktable>
+        </apex:pageblockSection>
+    </apex:pageBlock>
+   
+    <apex:variable var="rowNum" value="{!0}"  />
+   
+    <apex:pageBlock id="membAdd" >  
+    <apex:variable var="rowNum" value="{!0}"  />              
+        <apex:pageblockSection >
+            <apex:pageBlockTable value="{!AccountAddList}" var="memb">
+                <apex:facet name="footer">
+                    <apex:commandLink value="Add Row" action="{!addRow}" reRender="membAdd"/>
+                </apex:facet>
+                <apex:column headerValue="No." style="width:20px; text-align:center;" headerClass="centertext">
+                    <apex:outputText value="{0,number, ###}" style="text-align:center;">  
+                        <apex:param value="{!rowNum+1}" />  
+                    </apex:outputText>
+                </apex:column>           
+                <apex:column headerValue="Account Name">
+                    <apex:inputField value="{!memb.Name}"/>
+                </apex:column>
+                <apex:column headerValue="Phone">
+                    <apex:inputField value="{!memb.Phone}"/>
+                </apex:column>
+                <apex:column headerValue="Delete" >
+                    <apex:commandLink style="font-size:15px; font-weight:bold; text-align:center;color:red;" value="X" action="{!delRow}" reRender="membAdd,temp" rendered="{!rowNum>0}">
+                        <apex:param value="{!rowNum}" name="index" />
+                    </apex:commandLink>
+                    <apex:variable var="rowNum" value="{!rowNum+1}"/>
+                </apex:column>               
+            </apex:pageBlockTable>                   
+        </apex:pageblockSection>       
+        <apex:pageblockSection columns="1" >
+            <apex:pageblockSectionItem >
+                <apex:commandButton value="Save" action="{!saveMemb}"/>
+                <apex:commandButton value="Cancel" onclick="winClose();" />
+            </apex:pageblockSectionItem>        
+        </apex:pageblockSection>
+    </apex:pageBlock>
+</apex:form>
+</apex:page>

@@ -1,0 +1,40 @@
+<apex:page controller="VFC01_VFP01_ReportPDF" renderAs="pdf"  >
+<font color="RED"><apex:pagemessages /></font>
+        <div id="1" style="font-family: Verdana,Geneva,Arial,Helvetica,Sans-Serif; font-size: 8px;">
+        <!--<h2>Congratulations you have successfully generated the report.</h2>-->
+        <h2>You have the data for {!lstRecs.size} fields of object {!objName} in this report.</h2>
+        <b>PageLayout Names - Column Mapping</b><br/>
+       
+                <ul>
+                <apex:repeat value="{!plNames}" var="colHeadings">
+                      <li>
+                    {!Left(RIGHT(colHeadings,LEN(colHeadings)-15), LEN(RIGHT(colHeadings,LEN(colHeadings)-15)) -1- LEN(RIGHT(colHeadings,LEN(colHeadings)-FIND('@',colHeadings))))} - {!RIGHT(colHeadings,LEN(colHeadings)-FIND('@',colHeadings))}
+                    </li>
+                </apex:repeat>
+                </ul>
+
+        <br/>
+        <table width="100%" style="border:0.2px #000000 solid">
+            <tr >
+            <th bgcolor="#dddddd" width="2%" style="border:0.2px solid black;">SrNo</th>
+            <th bgcolor="#dddddd" width="15%" style="border:0.2px solid black;">Field Name</th>
+                <apex:repeat value="{!plNames}" var="colHeadings">
+                <th bgcolor="#dddddd" style="border:0.2px solid black;text-align:center;">
+                    {!RIGHT(colHeadings,LEN(colHeadings)-FIND('@',colHeadings))}
+                </th>
+                </apex:repeat>
+            </tr>
+
+            <apex:repeat value="{!lstRecs}" var="ro">
+                <tr>
+                <td style="border:0.2px solid black;">{!ro.srno}</td>
+                <td style="border:0.2px solid black;">{!ro.fname}</td>
+                <apex:repeat value="{!ro.lstLayoutNames}" var="lo">
+                    <td style="border:0.2px solid black;text-align:center;">{!RIGHT(lo,1)}</td>
+                </apex:repeat>
+                </tr>
+            </apex:repeat>
+        </table>
+        Report Generated on : {!NOW()}        
+        </div>
+</apex:page>

@@ -1,0 +1,15 @@
+<apex:page sidebar="false" >
+<apex:form >
+    <apex:panelGrid columns="2" width="100%" cellpadding="5" cellspacing="5" >
+        <apex:outputtext value="Name"/>
+        <apex:inputtext title="Enter your Name" />
+        <apex:outputtext value="Age"/>
+        <apex:inputtext title="Enter your Age"/>
+        <apex:outputtext value="Total Experience"/>
+        <apex:inputtext title="Enter your total experience in IT" />
+        <apex:outputtext value="Skill"/>
+        <apex:inputtext title="Enter your skills. eg C, C++..." /> 
+        <apex:commandbutton value="Validate"/>
+    </apex:panelGrid>
+</apex:form>
+</apex:page>

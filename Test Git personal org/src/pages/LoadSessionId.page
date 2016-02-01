@@ -1,0 +1,3 @@
+<apex:page sidebar="false" showHeader="false" contentType="application/javascript" cache="false">
+  var _my_sfdcSession = "{!$Api.Session_Id}";
+</apex:page>

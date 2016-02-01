@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>windows_username__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <deprecated>false</deprecated>
+        <description>The user&apos;s Username in the company&apos;s Active Directory.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the user&apos;s Windows Domain Username in the format &quot;domain\username&quot;.</inlineHelpText>
+        <label>Windows Username</label>
+        <length>100</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+</CustomObject>

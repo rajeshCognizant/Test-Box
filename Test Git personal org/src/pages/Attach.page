@@ -1,0 +1,3 @@
+<apex:page controller="ViewImage" cache="true">
+
+      <img src="data:{!att.ContentType};base64,{!image}" /> </apex:page>
