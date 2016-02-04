@@ -1,0 +1,77 @@
+<apex:page showHeader="true" sidebar="true" title="Chatter Gallery" controller="ChatterGalleryPageController">
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"/>
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"/>
+    <apex:stylesheet value="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
+    <apex:includeScript value="{!URLFOR($Resource.Galleria,'galleria/galleria-1.3.5.min.js')}"/>
+
+<style>
+        .galleria{ width: 700px; height: 400px; background: #000 }
+    </style>
+    <apex:sectionHeader title="View Chatter Images" subtitle="Chatter Gallery" />
+
+<div class="galleria">
+        <apex:repeat value="{!images}" var="img">
+            <img src="{!img.image.downloadUrl}" data-title="{!img.item.Id}"/>
+        </apex:repeat>
+    </div>
+<div id="dialog" title="Like Info"></div>
+    <script>
+        Galleria.loadTheme('{!URLFOR($Resource.Galleria,'galleria/themes/classic/galleria.classic.min.js')}');
+        Galleria.run('.galleria', {
+            extend: function(options) {
+                this.bind('image', function(e) {
+                    $(e.imageTarget).click(this.proxy(function() {
+                        imageClicked(e);
+                    }));
+                });
+            }
+        });
+        function imageClicked(e){
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ChatterGalleryPageController.getLikesForImage}',
+                e.galleriaData.title, 
+                renderDialog
+            );
+        }
+        function renderDialog(result, event){
+            var dialog = $('#dialog');
+            dialog.empty();
+            setLikeCount(dialog, result);
+            setWhoLiked(dialog, result);
+            dialog.dialog();
+        }
+        function setLikeCount(dialog, result){
+            if(result.length == 0){
+                dialog.append('
+<strong>No likes:</strong>
+
+');
+            }else if(result.length == 1){
+                dialog.append('
+<strong>1 like:</strong>
+
+');
+            }else{
+                dialog.append('
+<strong>' + result.length + ' likes:</strong>
+
+');
+            }
+        }
+        function setWhoLiked(dialog, result){
+            if(result.length == 0){
+                dialog.append('
+Sorry! No one liked this yet!
+
+');
+            }else{    
+                for (i=0; i<result.length; i++){
+                    dialog.append('
+' + result[i].user.name + ' liked this
+
+');
+                }
+            }
+        }
+    </script>
+</apex:page>

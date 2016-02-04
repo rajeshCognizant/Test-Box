@@ -1,0 +1,38 @@
+<apex:page standardController="account" >
+  <script>
+  function abc(){
+  alert('1234');
+  if('{!$User.Alias}'=='RJ1'){
+      alert('abc');
+      window.open('https://www.google.co.in/');
+  }else{
+      alert('abcd');
+      window.open('https://c.ap2.visual.force.com/apex/test');
+  }
+  
+  }
+  </script>
+  <!-- THIS SECTION IS ONLY SHOWN FOR LOCAL COVERAGE BOB RECORDS -->
+  <!-- PRIOR YEAR REPORTS -->
+  <apex:pageBlock > 
+       
+      <apex:form >
+       
+      {!$User.Alias}
+
+      <apex:commandButton onclick="
+  if('{!$user.ContactId}'=='EUR'){
+      alert('abc');
+      window.open('/00O80000004qmzJ');
+  }else{
+      alert('abcd');
+     window.open('/00O80000004qmzJ');
+  }"      
+      value="PY Product Class by Bill Code" id="theButton50"
+      title="This button produces a Report of Product Class by Bill Code for Billings that relate to this Book Coverage assignment"   />
+      
+      
+   
+  </apex:form>
+  </apex:pageBlock>
+  </apex:page>
