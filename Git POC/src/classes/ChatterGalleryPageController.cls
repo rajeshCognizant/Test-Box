@@ -1,6 +1,6 @@
 public class ChatterGalleryPageController{
     public transient List<ChatterImage> images;
-
+//test
     public ChatterGalleryPageController(){
         instantiateImages();
         ConnectApi.FeedItemPage feedPage = getFirstFeedItemPageOfInternalPosts();
